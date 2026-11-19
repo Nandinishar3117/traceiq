@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "analyzer": {
+        "log_message_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "stop"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": { "type": "keyword" },
+      "timestamp": { "type": "date" },
+      "level": { "type": "keyword" },
+      "service": { "type": "keyword" },
+      "message": {
+        "type": "text",
+        "analyzer": "log_message_analyzer",
+        "fields": {
+          "raw": { "type": "keyword", "ignore_above": 512 }
+        }
+      },
+      "error_type": { "type": "keyword" },
+      "stack_trace": { "type": "text" },
+      "trace_id": { "type": "keyword" },
+      "request_id": { "type": "keyword" },
+      "http_method": { "type": "keyword" },
+      "endpoint": { "type": "keyword" },
+      "status_code": { "type": "integer" },
+      "duration_ms": { "type": "float" },
+      "error_group_id": { "type": "keyword" },
+      "metadata": { "type": "object", "dynamic": true }
+    }
+  }
+}
